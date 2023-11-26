@@ -15,11 +15,11 @@ import time
 
 REGION = 'us-east-1'
 DATABASE = 'prymal-analytics'
-CRAWLER_NAME = 'shopify_customer_log'
+CRAWLER_NAME = 'shopify_daily_stats'
 
 
 # Transformation SQL Query as code (path)
-QUERY_PATH = 'create_table/shopify_customer_log/create_table.sql'
+QUERY_PATH = 'create_table/shopify_daily_stats/create_table.sql'
 
 # AWS Credentials
 AWS_ACCESS_KEY_ID=os.environ['AWS_ACCESS_KEY']
