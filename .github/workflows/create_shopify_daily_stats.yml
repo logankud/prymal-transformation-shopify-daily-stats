@@ -3,8 +3,8 @@ run-name: ${{ github.actor }} - CREATE TABLE - shopify_daily_stats
 on: 
   push:
     paths:
-      - '**/create_table/shopify_customer_log/**'
-      - '**/workflows/shopify_customer_log.yml'
+      - '**/create_table/shopify_daily_stats/**'
+      - '**/workflows/shopify_daily_stats.yml'
       
 
 jobs:
