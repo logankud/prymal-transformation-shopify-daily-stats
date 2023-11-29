@@ -6,7 +6,7 @@ on:
       - '**/transformation/**'
       - '**/workflows/prymal_transformation_shopify_daily_stats.yml'
   schedule:
-    - cron: '0 9 * * *'  # Runs at 8 AM every day
+    - cron: '0 9 * * *'  # Runs at 9 AM every day
 jobs:
   shopify_daily_stats_transformation:
     runs-on: ubuntu-latest

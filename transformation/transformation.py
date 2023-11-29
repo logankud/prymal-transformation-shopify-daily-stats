@@ -87,7 +87,7 @@ def run_athena_query(query:str, database: str, region:str):
 
 
         # Convert data rows into a list of lists
-        query_results_data = [[r['VarCharValue'] for r in row['Data']] for row in data_rows]
+        query_results_data = [[r['VarCharValue'] if 'VarCharValue' in r else np.NaN for r in row['Data']] for row in data_rows]
 
 
 
@@ -104,7 +104,7 @@ def run_athena_query(query:str, database: str, region:str):
 
 
                 # Convert data rows into a list of lists
-                query_results_data.extend([[r['VarCharValue'] for r in row['Data']] for row in data_rows])
+                query_results_data.extend([[r['VarCharValue'] if 'VarCharValue' in r else np.NaN for r in row['Data']] for row in data_rows])
 
 
 
@@ -286,7 +286,6 @@ def run_athena_query_no_results(query:str, database: str):
 
 
 
-
 # ========================================================================
 # Execute Code
 # ========================================================================
@@ -298,16 +297,13 @@ REGION = 'us-east-1'
 # Construct query to pull data by product
 # ----
 
-
+yesterday = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%Y-%m-%d')
 yesterday_y = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%Y')
 yesterday_m = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%m')
 yesterday_d = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%d')
 
 QUERY = f"""SELECT *
             FROM shopify_line_items
-            WHERE year = '{yesterday_y}'
-            AND month = '{yesterday_m}'
-            AND day = '{yesterday_d}'
         """
 
 # Query datalake to get quantiy sold per sku for the last 120 days
@@ -349,13 +345,13 @@ shopify_line_item_df['first_order_month'] = pd.to_datetime(shopify_line_item_df[
 
 
 shopify_line_item_df['first_order_fl'] = 0
-shopify_line_item_df.loc[shopify_line_item_df['order_date']==shopify_line_item_df['order_date'],'first_order_fl'] == 1
+shopify_line_item_df.loc[shopify_line_item_df['order_date']==shopify_line_item_df['order_date'],'first_order_fl'] = 1
 
 # --------------------
 # Calculate summary statistics for each day
 # --------------------
 
-df = shopify_line_item_df.copy()
+df = shopify_line_item_df.loc[shopify_line_item_df['order_date']==yesterday].copy()
 
 
 # Group by order date and agg
