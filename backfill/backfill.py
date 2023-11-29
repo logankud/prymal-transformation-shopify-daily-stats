@@ -418,7 +418,7 @@ for d in daily_stats_df['order_date'].unique():
     df_write = daily_stats_df.loc[daily_stats_df['order_date']==d]
 
     # Log number of rows
-    logger.info(f'{len(daily_stats_df)} rows in daily_stats_df ({d})')
+    logger.info(f'{len(df_write)} rows in daily_stats_df ({d})')
     
     # Configure S3 Prefix
     S3_PREFIX_PATH = f"shopify/daily_stats/partition_date={d}/shopify_daily_stats_{d}.csv"
