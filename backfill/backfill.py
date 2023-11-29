@@ -345,7 +345,7 @@ shopify_line_item_df['first_order_month'] = pd.to_datetime(shopify_line_item_df[
 
 
 shopify_line_item_df['first_order_fl'] = 0
-shopify_line_item_df.loc[shopify_line_item_df['order_date']==shopify_line_item_df['order_date'],'first_order_fl'] = 1
+shopify_line_item_df.loc[shopify_line_item_df['order_date']==shopify_line_item_df['first_order_date'],'first_order_fl'] = 1
 
 # --------------------
 # Calculate summary statistics for each day
