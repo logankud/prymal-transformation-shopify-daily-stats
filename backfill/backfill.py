@@ -351,7 +351,7 @@ shopify_line_item_df.loc[shopify_line_item_df['order_date']==shopify_line_item_d
 # Calculate summary statistics for each day
 # --------------------
 
-df = shopify_line_item_df.loc[shopify_line_item_df['order_date']==yesterday].copy()
+df = shopify_line_item_df.copy()
 
 
 # Group by order date and agg
@@ -402,9 +402,6 @@ logger.info(daily_stats_df.head())
 # WRITE TO S3
 # --------------------
 
-yesterday_date = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%Y-%m-%d')
-
-
 # Create s3 client
 s3_client = boto3.client('s3', 
                           region_name = REGION,
@@ -416,7 +413,7 @@ s3_client = boto3.client('s3',
 BUCKET = os.environ['S3_PRYMAL_ANALYTICS']
 
 
-for d in shopify_line_item_df['order_date'].unique():
+for d in daily_stats_df['order_date'].unique():
 
     df_write = daily_stats_df.loc[daily_stats_df['order_date']==d]
 
